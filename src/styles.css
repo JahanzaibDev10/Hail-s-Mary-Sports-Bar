@@ -1,0 +1,173 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/* ===== HAIL MARY'S DESIGN SYSTEM ===== */
+
+@theme inline {
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 14px;
+  --radius-xl: 22px;
+  --radius-2xl: 32px;
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-blitz: var(--blitz);
+  --color-gold: var(--gold);
+  --color-panel: var(--panel);
+  --color-bone: var(--bone);
+  --color-ink: var(--ink);
+
+  --font-display: "Bebas Neue", "Oswald", system-ui, sans-serif;
+  --font-script: "Caveat Brush", "Permanent Marker", cursive;
+  --font-body: "Inter", system-ui, sans-serif;
+}
+
+:root {
+  --background: oklch(0.13 0.005 270);
+  --foreground: oklch(0.96 0.02 80);
+  --card: oklch(0.17 0.008 270);
+  --card-foreground: oklch(0.96 0.02 80);
+  --popover: oklch(0.17 0.008 270);
+  --popover-foreground: oklch(0.96 0.02 80);
+  --primary: oklch(0.58 0.23 25);
+  --primary-foreground: oklch(0.98 0.01 80);
+  --secondary: oklch(0.78 0.17 75);
+  --secondary-foreground: oklch(0.15 0.005 270);
+  --muted: oklch(0.22 0.008 270);
+  --muted-foreground: oklch(0.7 0.02 80);
+  --accent: oklch(0.78 0.17 75);
+  --accent-foreground: oklch(0.15 0.005 270);
+  --destructive: oklch(0.58 0.23 25);
+  --destructive-foreground: oklch(0.98 0.01 80);
+  --border: oklch(0.27 0.01 270);
+  --input: oklch(0.22 0.01 270);
+  --ring: oklch(0.58 0.23 25);
+
+  /* Brand */
+  --blitz: #D4202C;
+  --gold: #F4A91F;
+  --ink: #0B0B0D;
+  --panel: #16161A;
+  --bone: #F5F1E8;
+
+  --shadow-neon-red: 0 0 18px rgba(212,32,44,0.55), 0 0 44px rgba(212,32,44,0.35);
+  --shadow-neon-gold: 0 0 18px rgba(244,169,31,0.55), 0 0 44px rgba(244,169,31,0.3);
+}
+
+@layer base {
+  * { border-color: var(--color-border); }
+  html { background: var(--ink); }
+  body {
+    background: var(--ink);
+    color: var(--bone);
+    font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    letter-spacing: 0.01em;
+    text-transform: uppercase;
+  }
+  ::selection { background: var(--blitz); color: var(--bone); }
+}
+
+/* 90% width container */
+@utility wrap {
+  width: 90vw;
+  max-width: 1600px;
+  margin-inline: auto;
+}
+
+@utility neon-red {
+  color: #fff;
+  text-shadow:
+    0 0 6px rgba(255,90,100,0.9),
+    0 0 18px rgba(212,32,44,0.95),
+    0 0 38px rgba(212,32,44,0.75),
+    0 0 70px rgba(212,32,44,0.5);
+}
+@utility neon-gold {
+  color: #fff;
+  text-shadow:
+    0 0 6px rgba(255,210,120,0.9),
+    0 0 18px rgba(244,169,31,0.95),
+    0 0 38px rgba(244,169,31,0.7),
+    0 0 70px rgba(244,169,31,0.45);
+}
+
+@utility glow-red {
+  box-shadow: 0 0 0 1px rgba(212,32,44,0.45) inset, var(--shadow-neon-red);
+}
+@utility glow-gold {
+  box-shadow: 0 0 0 1px rgba(244,169,31,0.5) inset, var(--shadow-neon-gold);
+}
+
+@utility film-grain {
+  position: relative;
+}
+@utility scrim-dark {
+  background: linear-gradient(180deg, rgba(11,11,13,0) 0%, rgba(11,11,13,0.55) 60%, rgba(11,11,13,0.95) 100%);
+}
+
+@keyframes flicker {
+  0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% { opacity: 1; filter: drop-shadow(0 0 14px rgba(212,32,44,0.9)); }
+  20%, 24%, 55% { opacity: 0.55; filter: drop-shadow(0 0 4px rgba(212,32,44,0.4)); }
+}
+@utility flicker { animation: flicker 5.5s infinite; }
+
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+@utility marquee-track {
+  animation: marquee 38s linear infinite;
+  display: inline-flex;
+  white-space: nowrap;
+}
+
+@keyframes float-up {
+  0% { transform: translateY(0) scale(1); opacity: 0.7; }
+  100% { transform: translateY(-100vh) scale(0.3); opacity: 0; }
+}
+@utility ember {
+  position: absolute;
+  width: 6px; height: 6px;
+  border-radius: 999px;
+  background: radial-gradient(circle, #ffb14a 0%, rgba(212,32,44,0) 70%);
+  animation: float-up linear infinite;
+  pointer-events: none;
+}
+
+@keyframes pulseGlow {
+  0%, 100% { box-shadow: 0 0 0 1px rgba(212,32,44,0.6) inset, 0 0 14px rgba(212,32,44,0.55), 0 0 36px rgba(212,32,44,0.3); }
+  50% { box-shadow: 0 0 0 1px rgba(244,169,31,0.6) inset, 0 0 22px rgba(244,169,31,0.75), 0 0 60px rgba(244,169,31,0.4); }
+}
+@utility glow-pulse { animation: pulseGlow 3.4s ease-in-out infinite; }
+
+/* Custom scrollbar */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: #0B0B0D; }
+::-webkit-scrollbar-thumb { background: #2a1416; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--blitz); }
