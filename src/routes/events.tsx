@@ -9,13 +9,13 @@ import { EventCard } from "@/components/site/EventCard";
 import { WEEKLY_EVENTS, SPECIAL_PARTIES } from "@/components/site/data";
 import { ReservationFlow } from "@/components/site/ReservationFlow";
 import { CTAButton } from "@/components/site/CTAButton";
+import { createSeo } from "@/lib/seo";
 
 export const Route = createFileRoute("/events")({
-  head: () => ({
-    meta: [
-      { title: "Events — Hail Mary's Sports Bar Glendale" },
-      { name: "description", content: "Bingo Mondays, karaoke Thursdays, poker Fridays, Latin Saturdays, NFL Sundays. Every night has a reason at Hail Mary's." },
-    ],
+  head: () => createSeo({
+    title: "Events & Weekly Lineup | Hail Mary's Sports Bar",
+    description: "See what's happening at Hail Mary's in Glendale: bingo, karaoke, poker, live music, Latin night, drink specials, and NFL watch parties.",
+    path: "/events",
   }),
   component: Events,
 });

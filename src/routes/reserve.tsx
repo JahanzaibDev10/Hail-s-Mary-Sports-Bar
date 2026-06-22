@@ -3,13 +3,13 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { SectionReveal } from "@/components/site/SectionReveal";
 import { ReservationFlow } from "@/components/site/ReservationFlow";
+import { createSeo } from "@/lib/seo";
 
 export const Route = createFileRoute("/reserve")({
-  head: () => ({
-    meta: [
-      { title: "Reserve Your Spot — Hail Mary's Sports Bar" },
-      { name: "description", content: "Reserve a booth, plan a private party, or RSVP for a watch party at Hail Mary's. Quick, free, no payment needed." },
-    ],
+  head: () => createSeo({
+    title: "Reserve a Booth | Hail Mary's Sports Bar Glendale",
+    description: "Reserve a booth, RSVP for a watch party, or plan a private event at Hail Mary's Sports Bar in Glendale. Quick and free, with no payment needed.",
+    path: "/reserve",
   }),
   component: Reserve,
 });

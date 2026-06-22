@@ -8,10 +8,10 @@ import {
   Scripts,
 } from "@tanstack/react-router";
 import { AnimatePresence, motion } from "framer-motion";
-import { useEffect, type ReactNode } from "react";
+import { type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
-import { reportLovableError } from "../lib/lovable-error-reporting";
+import { createSeo, localBusinessJsonLd } from "../lib/seo";
 import { LenisProvider } from "../lib/lenis-provider";
 import { Nav } from "../components/site/Nav";
 import { Footer } from "../components/site/Footer";
@@ -36,7 +36,6 @@ function NotFoundComponent() {
 export function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   console.error(error);
   const router = useRouter();
-  useEffect(() => { reportLovableError(error, { boundary: "tanstack_root_error_component" }); }, [error]);
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
       <div className="max-w-md text-center">
@@ -52,25 +51,33 @@ export function ErrorComponent({ error, reset }: { error: Error; reset: () => vo
 }
 
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
-  head: () => ({
+  head: () => {
+    const seo = createSeo({
+      title: "Hail Mary's Sports Bar — Glendale's Best Damn Dive Bar",
+      description: "Glendale sports and dive bar with NFL watch parties, karaoke, live music, bingo, poker, billiards, strong drinks, and a late-night patio.",
+    });
+
+    return {
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Hail Mary's Sports Bar — The Best Damn Dive Bar in Glendale" },
-      { name: "description", content: "Sports, strong drinks, karaoke, live bands, NFL & Cardinals watch parties. Glendale, AZ. Open 11AM–2AM, 7 days a week." },
       { name: "theme-color", content: "#0B0B0D" },
-      { property: "og:title", content: "Hail Mary's Sports Bar — Glendale, AZ" },
-      { property: "og:description", content: "The best damn dive bar in Glendale. Game day, every day." },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
+      { name: "geo.region", content: "US-AZ" },
+      { name: "geo.placename", content: "Glendale" },
+      ...seo.meta,
     ],
     links: [
+      ...seo.links,
+      { rel: "icon", href: "/favicon.svg", type: "image/svg+xml" },
+      { rel: "apple-touch-icon", href: "/apple-touch-icon.svg" },
+      { rel: "manifest", href: "/site.webmanifest" },
       { rel: "stylesheet", href: appCss },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Caveat+Brush&family=Inter:wght@400;500;600;700&display=swap" },
     ],
-  }),
+    };
+  },
   shellComponent: RootShell,
   component: RootComponent,
   notFoundComponent: NotFoundComponent,
@@ -82,6 +89,10 @@ function RootShell({ children }: { children: ReactNode }) {
     <html lang="en" suppressHydrationWarning>
       <head>
         <HeadContent />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessJsonLd) }}
+        />
       </head>
       <body suppressHydrationWarning>
         {children}

@@ -6,13 +6,13 @@ import gameday from "@/assets/gameday-crowd.jpg";
 import bar from "@/assets/bar-tvs.jpg";
 import whiskey from "@/assets/whiskey.jpg";
 import { Tv, Beer, Trophy, Flame } from "lucide-react";
+import { createSeo } from "@/lib/seo";
 
 export const Route = createFileRoute("/game-day")({
-  head: () => ({
-    meta: [
-      { title: "Game Day — NFL & Cardinals Watch Parties | Hail Mary's" },
-      { name: "description", content: "Every Sunday: NFL Sunday Ticket on every screen, happy hour all day, Cardinals watch parties, reserved game-day booths." },
-    ],
+  head: () => createSeo({
+    title: "NFL & Cardinals Watch Parties | Hail Mary's",
+    description: "Watch NFL games and the Arizona Cardinals at Hail Mary's in Glendale, with Sunday Ticket, wall-to-wall screens, all-day happy hour, and booth reservations.",
+    path: "/game-day",
   }),
   component: GameDay,
 });

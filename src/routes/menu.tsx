@@ -10,13 +10,13 @@ import cocktail from "@/assets/cocktail.jpg";
 import margaritas from "@/assets/margaritas.jpg";
 import whiskey from "@/assets/whiskey.jpg";
 import { ExternalLink, ShieldAlert } from "lucide-react";
+import { createSeo } from "@/lib/seo";
 
 export const Route = createFileRoute("/menu")({
-  head: () => ({
-    meta: [
-      { title: "Menu — Cocktails, Beer & Party Packs | Hail Mary's" },
-      { name: "description", content: "Hail Mary's drink menu: craft cocktails, canned cocktails, beer, party packs, and the famous House Punch. 21+." },
-    ],
+  head: () => createSeo({
+    title: "Drink Menu | Hail Mary's Sports Bar Glendale",
+    description: "Explore Hail Mary's drink menu: signature cocktails, beer, canned cocktails, wine, party packs, weekly specials, and the famous House Punch.",
+    path: "/menu",
   }),
   component: Menu,
 });

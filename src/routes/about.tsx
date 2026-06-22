@@ -4,13 +4,13 @@ import { CTAButton } from "@/components/site/CTAButton";
 import { Instagram, Facebook, Phone, Mail, MapPin, Clock, MessageSquare, Tv, Beer, Music, Wind, Trophy } from "lucide-react";
 import patio from "@/assets/patio.jpg";
 import bar from "@/assets/bar-tvs.jpg";
+import { createSeo } from "@/lib/seo";
 
 export const Route = createFileRoute("/about")({
-  head: () => ({
-    meta: [
-      { title: "About & Contact — Hail Mary's Sports Bar Glendale" },
-      { name: "description", content: "Hail Mary's — Glendale's loudest, friendliest dive sports bar. Address, hours, contact, patio, hookah, and what makes us, us." },
-    ],
+  head: () => createSeo({
+    title: "About & Contact | Hail Mary's Sports Bar Glendale",
+    description: "Visit Hail Mary's Sports Bar in Glendale, Arizona. Find our address, daily hours, phone number, patio details, amenities, and social links.",
+    path: "/about",
   }),
   component: About,
 });

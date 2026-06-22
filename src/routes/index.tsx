@@ -21,13 +21,12 @@ import liveBand from "@/assets/live-band.jpg";
 import barTvs from "@/assets/bar-tvs.jpg";
 import latinNight from "@/assets/latin-night.jpg";
 import { Star, MapPin, Clock, Phone, MessageSquare } from "lucide-react";
+import { createSeo } from "@/lib/seo";
 
 export const Route = createFileRoute("/")({
-  head: () => ({
-    meta: [
-      { title: "Hail Mary's Sports Bar — Glendale's Best Damn Dive Bar" },
-      { name: "description", content: "Sports + dive bar in Glendale, AZ. NFL & Cardinals watch parties, karaoke, live bands, bingo, poker, billiards. Reserve your spot." },
-    ],
+  head: () => createSeo({
+    title: "Hail Mary's Sports Bar — Glendale's Best Damn Dive Bar",
+    description: "Glendale sports and dive bar with NFL watch parties, karaoke, live music, bingo, poker, billiards, strong drinks, and a late-night patio.",
   }),
   component: Home,
 });

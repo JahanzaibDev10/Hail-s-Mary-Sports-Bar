@@ -17,13 +17,13 @@ import latin from "@/assets/latin-night.jpg";
 import cocktail from "@/assets/cocktail.jpg";
 import margaritas from "@/assets/margaritas.jpg";
 import whiskey from "@/assets/whiskey.jpg";
+import { createSeo } from "@/lib/seo";
 
 export const Route = createFileRoute("/gallery")({
-  head: () => ({
-    meta: [
-      { title: "Gallery — Inside Hail Mary's Sports Bar" },
-      { name: "description", content: "Inside Hail Mary's: game day crowds, neon nights, the patio, karaoke, live bands, billiards. The vibe, captured." },
-    ],
+  head: () => createSeo({
+    title: "Photo Gallery | Hail Mary's Sports Bar Glendale",
+    description: "See game-day crowds, neon nights, karaoke, live bands, billiards, cocktails, and the patio at Hail Mary's Sports Bar in Glendale.",
+    path: "/gallery",
   }),
   component: Gallery,
 });
