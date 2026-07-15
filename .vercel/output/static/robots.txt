@@ -1,4 +1,0 @@
-User-agent: *
-Allow: /
-
-Sitemap: https://hail-marys-digital-dive.vercel.app/sitemap.xml
