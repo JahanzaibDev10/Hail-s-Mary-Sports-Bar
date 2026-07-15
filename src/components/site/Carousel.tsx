@@ -9,7 +9,11 @@ interface Props {
 }
 
 export function Carousel({ children, className = "", slideClassName = "min-w-0 flex-[0_0_85%] md:flex-[0_0_45%] lg:flex-[0_0_32%]" }: Props) {
-  const [emblaRef, embla] = useEmblaCarousel({ loop: true, dragFree: false, align: "start" });
+  const [emblaRef, embla] = useEmblaCarousel({
+    loop: true,
+    dragFree: true,
+    align: "start",
+  });
   const [canPrev, setCanPrev] = useState(false);
   const [canNext, setCanNext] = useState(false);
 
@@ -29,7 +33,7 @@ export function Carousel({ children, className = "", slideClassName = "min-w-0 f
   return (
     <div className={`relative ${className}`}>
       <div className="overflow-hidden" ref={emblaRef}>
-        <div className="flex gap-5">
+        <div className="flex select-none gap-5" onDragStart={(event) => event.preventDefault()}>
           {children.map((c, i) => (
             <div key={i} className={slideClassName}>
               {c}
