@@ -32,7 +32,7 @@ export function Carousel({ children, className = "", slideClassName = "min-w-0 f
 
   return (
     <div className={`relative ${className}`}>
-      <div className="overflow-hidden" ref={emblaRef}>
+      <div className="overflow-hidden touch-pan-y" ref={emblaRef} data-lenis-prevent-touch>
         <div className="flex select-none gap-5" onDragStart={(event) => event.preventDefault()}>
           {children.map((c, i) => (
             <div key={i} className={slideClassName}>
