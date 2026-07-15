@@ -1,6 +1,6 @@
 import useEmblaCarousel from "embla-carousel-react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { useCallback, useEffect, useState, type ReactNode } from "react";
+import { useCallback, useEffect, useRef, useState, type MouseEvent, type ReactNode, type TouchEvent } from "react";
 
 interface Props {
   children: ReactNode[];
@@ -16,6 +16,8 @@ export function Carousel({ children, className = "", slideClassName = "min-w-0 f
   });
   const [canPrev, setCanPrev] = useState(false);
   const [canNext, setCanNext] = useState(false);
+  const touchStartRef = useRef<{ x: number; y: number; swiping: boolean } | null>(null);
+  const blockClickRef = useRef(false);
 
   const onSelect = useCallback(() => {
     if (!embla) return;
@@ -30,9 +32,58 @@ export function Carousel({ children, className = "", slideClassName = "min-w-0 f
     embla.on("reInit", onSelect);
   }, [embla, onSelect]);
 
+  const handleTouchStart = useCallback((event: TouchEvent<HTMLDivElement>) => {
+    const touch = event.touches[0];
+    touchStartRef.current = { x: touch.clientX, y: touch.clientY, swiping: false };
+    blockClickRef.current = false;
+  }, []);
+
+  const handleTouchMove = useCallback((event: TouchEvent<HTMLDivElement>) => {
+    const start = touchStartRef.current;
+    const touch = event.touches[0];
+    if (!start || !touch || !embla) return;
+
+    const deltaX = touch.clientX - start.x;
+    const deltaY = touch.clientY - start.y;
+    const isHorizontalSwipe = Math.abs(deltaX) > 18 && Math.abs(deltaX) > Math.abs(deltaY) * 1.15;
+
+    if (!isHorizontalSwipe) return;
+
+    start.swiping = true;
+    blockClickRef.current = true;
+    if (event.cancelable) event.preventDefault();
+
+    if (Math.abs(deltaX) < 34) return;
+    if (deltaX < 0) embla.scrollNext();
+    else embla.scrollPrev();
+
+    start.x = touch.clientX;
+    start.y = touch.clientY;
+  }, [embla]);
+
+  const handleTouchEnd = useCallback(() => {
+    touchStartRef.current = null;
+  }, []);
+
+  const handleClickCapture = useCallback((event: MouseEvent<HTMLDivElement>) => {
+    if (!blockClickRef.current) return;
+    event.preventDefault();
+    event.stopPropagation();
+    blockClickRef.current = false;
+  }, []);
+
   return (
     <div className={`relative ${className}`}>
-      <div className="overflow-hidden touch-pan-y" ref={emblaRef} data-lenis-prevent-touch>
+      <div
+        className="overflow-hidden touch-pan-y"
+        ref={emblaRef}
+        data-lenis-prevent-touch
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
+        onTouchCancel={() => { touchStartRef.current = null; }}
+        onClickCapture={handleClickCapture}
+      >
         <div className="flex select-none gap-5" onDragStart={(event) => event.preventDefault()}>
           {children.map((c, i) => (
             <div key={i} className={slideClassName}>
